@@ -66,6 +66,10 @@ func download(ctx context.Context, request events.APIGatewayRequest) (events.API
 		}
 	}
 	fmt.Println("fileName:" + fileName)
+	if fileName == "" {
+		return events.APIGatewayResponse{}, errors.New("获取文件名失败！")
+	}
+
 	bucketURL, err := url.Parse(domain)
 	if err != nil {
 		return events.APIGatewayResponse{}, err
