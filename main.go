@@ -59,7 +59,11 @@ func download(ctx context.Context, request events.APIGatewayRequest) (events.API
 	}
 
 	if fileName == "" {
-		fileName = downloadURL[strings.LastIndex(downloadURL, "/")+1 : strings.Index(downloadURL, "?")]
+		if pos := strings.Index(downloadURL, "?"); pos != -1 {
+			fileName = downloadURL[strings.LastIndex(downloadURL, "/")+1 : pos]
+		} else {
+			fileName = downloadURL[strings.LastIndex(downloadURL, "/")+1:]
+		}
 	}
 	fmt.Println("fileName:" + fileName)
 	bucketURL, err := url.Parse(domain)
